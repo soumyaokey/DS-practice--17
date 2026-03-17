@@ -1,0 +1,41 @@
+#include <stdio.h>          
+#include <stdlib.h>
+
+// int A=2 , B=3 ,C=4 ,D=8, E=4;
+int A=23 , B=5 ,C=4 ,D=81 , E=9;
+
+int stack[10];
+int top=-1;
+
+int value (char nx) {
+    return nx=='A'?A:nx=='B'?B:nx=='C'?C:nx=='D'?D:nx=='E'?E:0;
+}
+
+int main (){
+
+    int i, res;
+    
+
+    char postfix[]="ABC*+DE/-";
+    int sz =strlen (postfix);
+
+    for (i=0; i<sz; i++) {
+        char nx = postfix[i];
+
+        if (nx =='+'|| nx == '-'|| nx == '*'|| nx == '/') {
+            int op2 = stack[top--];
+            int op1 = stack[top--];
+            switch (nx) {
+                case '+': res = op1 + op2; break;
+                case '-': res = op1 - op2; break;
+                case '*': res = op1 * op2; break;
+                case '/': res = op1 / op2; break;
+            }
+            stack[++top] = res;
+        } else {
+            stack[++top] = value(nx);
+        }
+    }
+    printf ("%d\n", stack[top]);
+    return 0;
+}
